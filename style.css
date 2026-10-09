@@ -38,7 +38,39 @@ main {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 0.5rem;
   margin-bottom: 1.25rem;
+}
+
+.topbar h1 { margin-right: auto; }
+
+#copy-btn {
+  display: none;
+  background: none;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font: inherit;
+  font-size: 0.8rem;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+}
+
+body.editing #copy-btn { display: inline-block; }
+
+#copy-btn:hover { color: var(--fg); border-color: var(--muted); }
+
+#copy-toast {
+  color: var(--accent);
+  font-size: 0.8rem;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+#copy-toast.show { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  #copy-toast { transition: none; }
 }
 
 h1 {

@@ -45,16 +45,18 @@ function isValidLink(link) {
   return true;
 }
 
-let links = decodeState(location.hash.slice(1)).filter(isValidLink);
+let links = decodeState(new URLSearchParams(location.search).get('d') || '').filter(isValidLink);
 
 const listEl = document.getElementById('list');
 const emptyEl = document.getElementById('empty-state');
 const titleInput = document.getElementById('title-input');
 const urlInput = document.getElementById('url-input');
 const editToggle = document.getElementById('edit-toggle');
+const copyBtn = document.getElementById('copy-btn');
+const copyToast = document.getElementById('copy-toast');
 
 function persist() {
-  history.replaceState(null, '', links.length ? '#' + encodeState(links) : location.pathname + location.search);
+  history.replaceState(null, '', links.length ? location.pathname + '?d=' + encodeState(links) : location.pathname);
 }
 
 function renumber() {
@@ -204,8 +206,27 @@ listEl.addEventListener('click', (e) => {
 
 editToggle.addEventListener('click', () => {
   document.body.classList.toggle('editing');
-  editToggle.classList.toggle('active');
-  editToggle.textContent = document.body.classList.contains('editing') ? '✓' : '✎';
+  const editing = document.body.classList.contains('editing');
+  editToggle.classList.toggle('active', editing);
+  editToggle.textContent = editing ? '✓' : '✎';
+});
+
+copyBtn.addEventListener('click', async () => {
+  try {
+    await navigator.clipboard.writeText(location.href);
+  } catch (e) {
+    const temp = document.createElement('textarea');
+    temp.value = location.href;
+    temp.style.position = 'fixed';
+    temp.style.opacity = '0';
+    document.body.appendChild(temp);
+    temp.select();
+    document.execCommand('copy');
+    temp.remove();
+  }
+
+  copyToast.classList.add('show');
+  setTimeout(() => copyToast.classList.remove('show'), 1200);
 });
 
 let dragEl = null;
