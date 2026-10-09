@@ -45,7 +45,9 @@ function isValidLink(link) {
   return true;
 }
 
-let links = decodeState(new URLSearchParams(location.search).get('d') || '').filter(isValidLink);
+const fromPath = decodeState(location.pathname.replace(/^\//, ''));
+const fromQuery = decodeState(new URLSearchParams(location.search).get('d') || '');
+let links = (fromPath.length ? fromPath : fromQuery).filter(isValidLink);
 
 const listEl = document.getElementById('list');
 const emptyEl = document.getElementById('empty-state');
@@ -56,7 +58,11 @@ const copyBtn = document.getElementById('copy-btn');
 const copyToast = document.getElementById('copy-toast');
 
 function persist() {
-  history.replaceState(null, '', links.length ? location.pathname + '?d=' + encodeState(links) : location.pathname);
+  if (location.protocol === 'file:') {
+    history.replaceState(null, '', links.length ? location.pathname + '?d=' + encodeState(links) : location.pathname);
+  } else {
+    history.replaceState(null, '', links.length ? '/' + encodeState(links) : '/');
+  }
 }
 
 function renumber() {
@@ -211,12 +217,18 @@ editToggle.addEventListener('click', () => {
   editToggle.textContent = editing ? '✓' : '✎';
 });
 
+function shareText() {
+  return location.href.replace(/^https?:\/\//, '');
+}
+
 copyBtn.addEventListener('click', async () => {
+  const url = shareText();
+
   try {
-    await navigator.clipboard.writeText(location.href);
+    await navigator.clipboard.writeText(url);
   } catch (e) {
     const temp = document.createElement('textarea');
-    temp.value = location.href;
+    temp.value = url;
     temp.style.position = 'fixed';
     temp.style.opacity = '0';
     document.body.appendChild(temp);
