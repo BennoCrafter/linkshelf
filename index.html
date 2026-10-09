@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Links</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <h1>// links</h1>
+
+    <form id="add-form">
+      <span class="prompt">+</span>
+      <input type="text" id="title-input" placeholder="title" required maxlength="120">
+      <input type="url" id="url-input" placeholder="https://example.com" required>
+      <button type="submit">add</button>
+    </form>
+
+    <ul id="list"></ul>
+    <p id="empty-state">no links yet</p>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
