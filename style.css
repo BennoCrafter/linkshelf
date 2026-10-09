@@ -109,10 +109,8 @@ h1 {
 
 body.editing #add-form { display: flex; }
 
-.prompt {
-  color: var(--accent);
-  font-weight: 700;
-}
+#new-dot { padding: 0; cursor: pointer; align-self: center; }
+#new-dot:hover { border-color: var(--muted); }
 
 #title-input { flex: 0 0 35%; }
 #url-input { flex: 1; }
@@ -134,7 +132,7 @@ input:focus-visible, button:focus-visible, a:focus-visible {
   outline-offset: 1px;
 }
 
-#add-form button {
+#add-form button[type="submit"] {
   flex: 0 0 auto;
   font: inherit;
   padding: 0.4rem 0.9rem;
@@ -145,7 +143,7 @@ input:focus-visible, button:focus-visible, a:focus-visible {
   cursor: pointer;
 }
 
-#add-form button:hover { opacity: 0.9; }
+#add-form button[type="submit"]:hover { opacity: 0.9; }
 
 ul#list {
   list-style: none;

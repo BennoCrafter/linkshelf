@@ -72,7 +72,12 @@ function renumber() {
   });
 }
 
+const newLink = { c: null };
+const newDot = document.getElementById('new-dot');
+newDot.addEventListener('click', () => openColorDialog(newLink));
+
 function render() {
+  newDot.style.setProperty('--dot-color', newLink.c || 'transparent');
   listEl.innerHTML = '';
   emptyEl.style.display = links.length ? 'none' : 'block';
 
@@ -130,7 +135,8 @@ document.getElementById('add-form').addEventListener('submit', (e) => {
   if (!title) return;
 
   urlInput.setCustomValidity('');
-  links.push({ t: title, u: url });
+  links.push(newLink.c ? { t: title, u: url, c: newLink.c } : { t: title, u: url });
+  newLink.c = null;
   titleInput.value = '';
   urlInput.value = '';
   titleInput.focus();
@@ -217,12 +223,8 @@ editToggle.addEventListener('click', () => {
   editToggle.textContent = editing ? '✓' : '✎';
 });
 
-function shareText() {
-  return location.href.replace(/^https?:\/\//, '');
-}
-
 copyBtn.addEventListener('click', async () => {
-  const url = shareText();
+  const url = location.href
 
   try {
     await navigator.clipboard.writeText(url);

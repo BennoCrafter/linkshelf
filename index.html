@@ -23,14 +23,14 @@
     </div>
 
     <form id="add-form">
-      <span class="prompt">+</span>
+      <button type="button" class="dot" id="new-dot" title="pick color" aria-label="pick color"></button>
       <input type="text" id="title-input" placeholder="title" required maxlength="120">
-      <input type="url" id="url-input" placeholder="https://example.com" required>
+      <input type="text" id="url-input" placeholder="https://youtube.com" required>
       <button type="submit">add</button>
     </form>
 
     <ul id="list"></ul>
-    <p id="empty-state">no links yet</p>
+    <p id="empty-state">no links yet. add one by clicking on the edit button</p>
   </main>
 
   <dialog id="color-dialog">
